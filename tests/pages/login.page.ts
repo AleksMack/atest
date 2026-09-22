@@ -6,13 +6,17 @@ export class LoginPage {
   readonly passwordInput: Locator;
   readonly submitButton: Locator;
   readonly otpFromAppButton: Locator;
+  readonly otpInput: Locator;
+  readonly loginButton: Locator;
 
   constructor(page: Page) {
     this.page = page;
     this.emailInput = page.getByLabel(/email|логин/i);
     this.passwordInput = page.getByLabel(/пароль|password/i);
-    this.submitButton = page.getByRole('button', { name: /next|войти|log ?in/i });
-    this.otpFromAppButton = page.getByRole('button', { name: 'Use OTP from the app' });
+    this.submitButton = page.getByRole('button', { name: /next|продолжить|войти|log ?in/i });
+    this.otpFromAppButton = page.getByRole('button', { name: /Use OTP from the app|Единоразовый OTP пароль/i });
+    this.otpInput = page.getByLabel(/OTP password|OTP пароль/i);
+    this.loginButton = page.getByRole('button', { name: /Login|Войти/i });
   }
 
   async goto() {
@@ -26,8 +30,15 @@ export class LoginPage {
   }
 
   async selectOtpFromApp() {
-    await expect(this.page.getByRole('heading', { name: 'Select verification method' })).toBeVisible();
+    await expect(
+      this.page.getByRole('heading', { name: /Select verification method|Выберите способ верификации/i }),
+    ).toBeVisible();
     await this.otpFromAppButton.click();
+  }
+
+  async submitOtp(otp: string) {
+    await this.otpInput.fill(otp);
+    await this.loginButton.click();
   }
 
   async expectLoggedIn() {

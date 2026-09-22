@@ -12,7 +12,12 @@ import { uniqueCounterparty, uniqueContractNumber } from '@utils/test-data';
  */
 test.describe('Purchase-sale flow', () => {
   test('full cycle: purchase, cargo receipt, sale, report', async ({ page }) => {
-    await login(page, process.env.TEST_USER_EMAIL!, process.env.TEST_USER_PASSWORD!);
+    await login(
+      page,
+      process.env.TEST_USER_EMAIL!,
+      process.env.TEST_USER_PASSWORD!,
+      process.env.TEST_USER_OTP!,
+    );
 
     const purchaseCounterparty = uniqueCounterparty('Supplier');
     const purchaseTradeId = await createPurchaseTrade(page, {
