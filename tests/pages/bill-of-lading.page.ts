@@ -9,6 +9,10 @@ export interface BillOfLadingData {
 export class BillOfLadingPage {
   static readonly listPath = '/pages/bills-of-lading/list?qp=0';
 
+  static detailsPath(billOfLadingId: string | number): string {
+    return `/pages/bills-of-lading/details/${billOfLadingId}?qp=0`;
+  }
+
   readonly page: Page;
   readonly createButton: Locator;
   readonly fileInput: Locator;
@@ -24,6 +28,10 @@ export class BillOfLadingPage {
 
   async gotoList(): Promise<void> {
     await this.page.goto(BillOfLadingPage.listPath);
+  }
+
+  async gotoDetails(billOfLadingId: string | number): Promise<void> {
+    await this.page.goto(BillOfLadingPage.detailsPath(billOfLadingId));
   }
 
   async openCreateDialog(): Promise<void> {
