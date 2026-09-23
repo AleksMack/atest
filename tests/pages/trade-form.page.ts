@@ -5,6 +5,7 @@ export type TradeType = 'purchase' | 'sale';
 export interface TradeFormData {
   counterparty: string;
   volume: string;
+  product: string;
   incoterms?: string;
   // TODO: остальные поля формы, после первого прогона на реальном приложении
 }

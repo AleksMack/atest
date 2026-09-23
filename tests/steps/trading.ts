@@ -1,12 +1,17 @@
 import { Page } from '@playwright/test';
-import { TradeFormPage, TradeFormData } from '@pages/trade-form.page';
+import { TradeFormPage } from '@pages/trade-form.page';
+import { FlowContext } from '@utils/flow-context';
 
-export async function createPurchaseTrade(page: Page, data: TradeFormData): Promise<string> {
+export async function createPurchaseTrade(page: Page, flow: FlowContext): Promise<string> {
   const tradeForm = new TradeFormPage(page);
-  return tradeForm.create('purchase', data);
+  const tradeId = await tradeForm.create('purchase', flow.purchase.trade);
+  flow.purchase.trade.id = tradeId;
+  return tradeId;
 }
 
-export async function createSalesTrade(page: Page, data: TradeFormData): Promise<string> {
+export async function createSalesTrade(page: Page, flow: FlowContext): Promise<string> {
   const tradeForm = new TradeFormPage(page);
-  return tradeForm.create('sale', data);
+  const tradeId = await tradeForm.create('sale', flow.sale.trade);
+  flow.sale.trade.id = tradeId;
+  return tradeId;
 }

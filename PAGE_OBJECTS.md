@@ -75,11 +75,15 @@ export class TradeFormPage {
     // заполняются после первого прогона на реальном приложении
   }
 
-  async create(type: TradeType, data: Record<string, string>) {
+  async create(type: TradeType, data: TradeFormData): Promise<string> {
     // TODO: реализация после уточнения структуры формы
   }
 }
 ```
+
+Данные, общие для нескольких экранов одного сценария, не создаются внутри
+Page Object. Они хранятся в `FlowContext` из `tests/utils/flow-context.ts` и
+передаются шагам; Page Object получает только данные своего экрана.
 
 Остальные Page Object (`BillOfLadingPage`, `OperationsPage`, `PriceCalculationPage`,
 `ReportPage`) создаются по тому же принципу: сначала каркас с TODO на локаторы,

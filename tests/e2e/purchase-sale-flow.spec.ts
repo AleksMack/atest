@@ -4,7 +4,7 @@ import { createPurchaseTrade, createSalesTrade } from '@steps/trading';
 import { enterBillOfLading } from '@steps/logistics';
 import { runCargoReceipt, runSalesOperation, expectPriceCalculated } from '@steps/operations';
 import { getReportRowForTrade } from '@steps/reports';
-import { uniqueCounterparty, uniqueContractNumber } from '@utils/test-data';
+import { createFlowContext } from '@utils/flow-context';
 
 /**
  * Сквозной сценарий: покупка -> оприходование -> продажа -> отчет.
@@ -19,32 +19,19 @@ test.describe('Purchase-sale flow', () => {
       process.env.TEST_USER_OTP!,
     );
 
-    const purchaseCounterparty = uniqueCounterparty('Supplier');
-    const purchaseTradeId = await createPurchaseTrade(page, {
-      counterparty: purchaseCounterparty,
-      volume: '1000',
-    });
+    const flow = createFlowContext();
+    const purchaseTradeId = await createPurchaseTrade(page, flow);
 
-    await enterBillOfLading(page, purchaseTradeId, {
-      number: uniqueContractNumber('BOL-P'),
-      volume: '1000',
-    });
+    await enterBillOfLading(page, flow, 'purchase');
 
-    await runCargoReceipt(page, purchaseTradeId);
+    await runCargoReceipt(page, flow);
     await expectPriceCalculated(page, purchaseTradeId);
 
-    const salesCounterparty = uniqueCounterparty('Buyer');
-    const salesTradeId = await createSalesTrade(page, {
-      counterparty: salesCounterparty,
-      volume: '1000',
-    });
+    const salesTradeId = await createSalesTrade(page, flow);
 
-    await enterBillOfLading(page, salesTradeId, {
-      number: uniqueContractNumber('BOL-S'),
-      volume: '1000',
-    });
+    await enterBillOfLading(page, flow, 'sale');
 
-    await runSalesOperation(page, salesTradeId);
+    await runSalesOperation(page, flow);
     await expectPriceCalculated(page, salesTradeId);
 
     const reportRow = await getReportRowForTrade(page, salesTradeId);

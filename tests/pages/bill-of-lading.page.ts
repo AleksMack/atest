@@ -2,6 +2,8 @@ import { Page, Locator } from '@playwright/test';
 
 export interface BillOfLadingData {
   number: string;
+  product: string;
+  vessel: string;
   volume: string;
   date?: string;
 }
@@ -42,7 +44,7 @@ export class BillOfLadingPage {
     await this.fileInput.setInputFiles(filePath);
   }
 
-  async enter(tradeId: string, data: BillOfLadingData): Promise<void> {
+  async enter(tradeId: string, data: BillOfLadingData): Promise<string> {
     // TODO: реализация после уточнения экрана
     throw new Error('Not implemented: BillOfLadingPage.enter');
   }

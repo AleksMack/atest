@@ -1,5 +1,8 @@
 # CTRM E2E tests
 
+Детальный бизнес-сценарий по сессиям: см. `SCENARIO.md`.
+Нейтральный пример Master Data для нефтетрейдинга: см. `CRM_Master_Data_Sample.md`.
+Шаблон запроса на заполнение Master Data: см. `CRM_Master_Data_Request.md`.
 Стратегия и обоснование решений: см. `STRATEGY.md`.
 Описание Page Object: см. `PAGE_OBJECTS.md`.
 

@@ -2,6 +2,15 @@ import { Page, Locator } from '@playwright/test';
 
 export type OperationType = 'cargo-receipt' | 'sale';
 
+export interface OperationData {
+  type: OperationType;
+  product: string;
+  vessel: string;
+  freight: string;
+  tradeId: string;
+  billOfLadingId?: string;
+}
+
 export class OperationsPage {
   readonly page: Page;
   readonly runButton: Locator;
@@ -12,7 +21,7 @@ export class OperationsPage {
     // TODO: локаторы экрана операции
   }
 
-  async run(type: OperationType, tradeId: string): Promise<void> {
+  async run(type: OperationType, data: OperationData): Promise<string> {
     // TODO: реализация после уточнения экрана
     throw new Error('Not implemented: OperationsPage.run');
   }
